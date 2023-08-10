@@ -5,6 +5,7 @@ import {
   Pressable,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,6 +17,35 @@ import Button from "../components/Button";
 const Login = ({ navigation }) => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleLogin = async () => {
+    const username = "";
+    const password = "";
+
+    try {
+      const response = await fetch("AWS_LAMBDA_URL", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        // 로그인 성공 시 처리
+        Alert.alert("로그인 성공", "환영합니다!", [
+          { text: "확인", onPress: () => console.log("로그인 성공") },
+        ]);
+      } else {
+        // 로그인 실패 시 처리
+        Alert.alert("로그인 실패", "아이디 또는 비밀번호가 일치하지 않습니다.");
+      }
+    } catch (error) {
+      // fetch 에러 처리
+      console.error("에러:", error);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -63,6 +93,8 @@ const Login = ({ navigation }) => {
           >
             <TextInput
               placeholder="아이디"
+              value={username}
+              onChangeText={setUsername}
               placeholderTextColor={COLORS.black}
               keyboardType="email-address"
               style={{
@@ -95,6 +127,8 @@ const Login = ({ navigation }) => {
           >
             <TextInput
               placeholder="비밀번호"
+              value={password}
+              onChangeText={setPassword}
               placeholderTextColor={COLORS.black}
               secureTextEntry={isPasswordShown}
               style={{
@@ -133,15 +167,16 @@ const Login = ({ navigation }) => {
 
           <Text>자동 로그인</Text>
         </View>
-
-        <Button
-          title="로그인"
-          filled
-          style={{
-            marginTop: 18,
-            marginBottom: 4,
-          }}
-        />
+        <TouchableOpacity onPress={handleLogin}>
+          <Button
+            title="로그인"
+            filled
+            style={{
+              marginTop: 18,
+              marginBottom: 4,
+            }}
+          />
+        </TouchableOpacity>
 
         <View
           style={{
