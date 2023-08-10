@@ -23,7 +23,7 @@ const Signup = ({ navigation }) => {
   const handleSignup = async () => {
     try {
       const response = await fetch(
-        "https://qwa4vzc7jgugwyornpacwyp7sm0ycgrn.lambda-url.ap-northeast-2.on.aws/",
+        "https://1h3q821aeg.execute-api.ap-northeast-2.amazonaws.com/default/pet119_login",
         {
           method: "POST",
           headers: {
