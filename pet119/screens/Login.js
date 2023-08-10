@@ -24,13 +24,16 @@ const Login = ({ navigation }) => {
     const password = "";
 
     try {
-      const response = await fetch("AWS_LAMBDA_URL", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await fetch(
+        "https://qwa4vzc7jgugwyornpacwyp7sm0ycgrn.lambda-url.ap-northeast-2.on.aws/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        }
+      );
 
       if (response.ok) {
         // 로그인 성공 시 처리

@@ -22,18 +22,21 @@ const Signup = ({ navigation }) => {
 
   const handleSignup = async () => {
     try {
-      const response = await fetch("YOUR_AWS_LAMBDA_ENDPOINT", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          username,
-          phoneNumber,
-          password,
-        }),
-      });
+      const response = await fetch(
+        "https://qwa4vzc7jgugwyornpacwyp7sm0ycgrn.lambda-url.ap-northeast-2.on.aws/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            username,
+            phoneNumber,
+            password,
+          }),
+        }
+      );
       const data = await response.json();
       if (response.ok) {
         Alert.alert("회원 가입 성공", data.message);
