@@ -5,17 +5,49 @@ import {
   Pressable,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from "../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
-import Checkbox from "expo-checkbox";
 import Button from "../components/Button";
 
 const Signup = ({ navigation }) => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignup = async () => {
+    try {
+      const response = await fetch("YOUR_AWS_LAMBDA_ENDPOINT", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          username,
+          phoneNumber,
+          password,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        Alert.alert("회원 가입 성공", data.message);
+        // 회원 가입 성공 시 추가적인 처리 작성
+        // 예를 들어, 로그인 화면으로 이동
+        navigation.navigate("Login");
+      } else {
+        Alert.alert("회원 가입 실패", data.message);
+      }
+    } catch (error) {
+      console.error("에러:", error);
+      Alert.alert("서버 에러", "서버 에러가 발생했습니다.");
+    }
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={{ flex: 1, marginHorizontal: 22 }}>
@@ -47,6 +79,8 @@ const Signup = ({ navigation }) => {
           >
             <TextInput
               placeholder="이름"
+              value={name}
+              onChangeText={(text) => setName(text)}
               placeholderTextColor={COLORS.black}
               keyboardType="email-address"
               style={{
@@ -77,6 +111,8 @@ const Signup = ({ navigation }) => {
           >
             <TextInput
               placeholder="아이디"
+              value={username}
+              onChangeText={(text) => setUsername(text)}
               placeholderTextColor={COLORS.black}
               keyboardType="email-address"
               style={{
@@ -130,6 +166,8 @@ const Signup = ({ navigation }) => {
             />
             <TextInput
               placeholder="전화번호"
+              value={phoneNumber}
+              onChangeText={(text) => setPhoneNumber(text)}
               placeholderTextColor={COLORS.black}
               keyboardType="numeric"
               style={{
@@ -192,6 +230,8 @@ const Signup = ({ navigation }) => {
           >
             <TextInput
               placeholder="비밀번호"
+              value={password}
+              onChangeText={(text) => setPassword(text)}
               placeholderTextColor={COLORS.black}
               secureTextEntry={isPasswordShown}
               style={{
@@ -255,15 +295,16 @@ const Signup = ({ navigation }) => {
             marginVertical: 6,
           }}
         ></View>
-
-        <Button
-          title="완료"
-          filled
-          style={{
-            marginTop: 18,
-            marginBottom: 4,
-          }}
-        />
+        <TouchableOpacity onPress={handleSignup}>
+          <Button
+            title="완료"
+            filled
+            style={{
+              marginTop: 18,
+              marginBottom: 4,
+            }}
+          />
+        </TouchableOpacity>
 
         <View
           style={{
