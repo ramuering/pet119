@@ -1,233 +1,218 @@
-CREATE SCHEMA `pet119` DEFAULT CHARACTER SET utf8mb4 ;
-use pet119;
-DROP TABLE `게시판`;
+DROP TABLE if exists`user`;
+
+CREATE TABLE `user`
+(
+    `user_name`    VARCHAR(20) NOT NULL,
+    `user_age`    INT,
+    `user_gender`    CHAR(1),
+    `user_phone`    VARCHAR(20) NOT NULL,
+    `user_address`    VARCHAR(100),
+    `user_nickname`    VARCHAR(20),
+    `user_time`    TIMESTAMP,
+    `user_update`    TIMESTAMP,
+    `user_id`    VARCHAR(30) NOT NULL,
+    `user_pw`    VARCHAR(30) NOT NULL
+);
+
+insert into user values('han',24,'M','010-1234-5678','pohang','han',now(),now(),'abcd','1234');
+
+ALTER TABLE `user`
+ ADD CONSTRAINT `user_PK` PRIMARY KEY ( `user_id` );
+
+
+DROP TABLE if exists`게시판`;
 
 CREATE TABLE `게시판`
 (
-    `게시판_id`    INT NOT NULL,
-    `작성 내용`    VARCHAR(10000),
-    `생성시기`    TIMESTAMP,
-    `업데이트 시기`    TIMESTAMP,
-    `좋아요`    BOOLEAN DEFAULT '0',
-    `제목`    VARCHAR(100),
-    `좋아요 눌린 횟수`    TINYINT,
-    `삭제 여부`    BOOLEAN DEFAULT '0',
-    `태그`    VARCHAR(100),
-    `아이디`    VARCHAR(30),
- PRIMARY KEY ( `게시판_id` )
+    `board_id`    INT NOT NULL,
+    `board_content`    VARCHAR(10000),
+    `board_time`    TIMESTAMP,
+    `board_update`    TIMESTAMP,
+    `board_like`    BOOLEAN DEFAULT '0',
+    `board_title`    VARCHAR(100),
+    `board_like_count`    TINYINT,
+    `board_delete`    BOOLEAN DEFAULT '0',
+    `board_tag`    VARCHAR(100),
+    `user_id`    VARCHAR(30)
 );
 
 ALTER TABLE `게시판`
- ADD CONSTRAINT `게시판_PK` PRIMARY KEY ( `게시판_id` );
+ ADD CONSTRAINT `게시판_PK` PRIMARY KEY ( `board_id` );
 
 
-DROP TABLE `댓글`;
+DROP TABLE if exists `댓글`;
 
 CREATE TABLE `댓글`
 (
-    `댓글_id`    INT NOT NULL,
-    `댓글 내용`    VARCHAR(1000),
-    `생성 시기`    TIMESTAMP,
-    `업데이트 시기`    TIMESTAMP,
-    `삭제 여부`    CHAR(1) DEFAULT 'N',
-    `게시판_id`    INT,
-    `아이디`    VARCHAR(30),
- PRIMARY KEY ( `댓글_id` )
+    `comments_id`    INT NOT NULL,
+    `comments_content`    VARCHAR(1000),
+    `comments_time`    TIMESTAMP,
+    `comments_update`    TIMESTAMP,
+    `comments_delete`    CHAR(1) DEFAULT 'N',
+    `board_id`    INT,
+    `comments_id1`    VARCHAR(30)
 );
 
 ALTER TABLE `댓글`
- ADD CONSTRAINT `댓글_PK` PRIMARY KEY ( `댓글_id` );
+ ADD CONSTRAINT `댓글_PK` PRIMARY KEY ( `comments_id` );
 
 
-DROP TABLE `반려동물 정보`;
+DROP TABLE if exists`반려동물 정보`;
 
 CREATE TABLE `반려동물 정보`
 (
-    `반려동물정보_id`    INT NOT NULL,
-    `아이디`    VARCHAR(30) NOT NULL,
-    `이름`    VARCHAR(20),
-    `나이`    INT,
-    `성별`    CHAR(1),
-    `종류`    VARCHAR(20),
-    `중 성화 수술 여부`    CHAR(1),
-    `알레르기 및 병`    VARCHAR(100),
-    `생성 시기`    TIMESTAMP,
-    `업데이트 시기`    TIMESTAMP,
-    `삭제 여부`    CHAR(1),
-    `특이사항`    VARCHAR(1000),
- PRIMARY KEY ( `반려동물정보_id` )
+    `pet_id`    INT NOT NULL,
+    `user_id`    VARCHAR(30) NOT NULL,
+    `pet_name`    VARCHAR(20),
+    `pet_age`    INT,
+    `pet_gender`    CHAR(1),
+    `pet_type`    VARCHAR(20),
+    `pet_neutralization`    CHAR(1),
+    `pet_allergy`    VARCHAR(100),
+    `pet_time`    TIMESTAMP,
+    `pet_time1`    TIMESTAMP,
+    `pet_delete`    CHAR(1),
+    `pet_special`    VARCHAR(1000)
 );
 
 ALTER TABLE `반려동물 정보`
- ADD CONSTRAINT `반려동물 정보_PK` PRIMARY KEY ( `반려동물정보_id` );
+ ADD CONSTRAINT `반려동물 정보_PK` PRIMARY KEY ( `pet_id` );
 
 
-DROP TABLE `사용자 정보`;
-
-CREATE TABLE `사용자 정보`
-(
-    `이름`    VARCHAR(20) NOT NULL,
-    `나이`    INT,
-    `성별`    CHAR(1),
-    `전화번호`    VARCHAR(20) NOT NULL,
-    `주소`    VARCHAR(100),
-    `닉네임`    VARCHAR(20),
-    `생성시기`    TIMESTAMP,
-    `업데이트 시기`    TIMESTAMP,
-    `아이디`    VARCHAR(30) NOT NULL,
-    `비밀번호`    VARCHAR(30) NOT NULL,
- PRIMARY KEY ( `아이디` )
-);
-
-ALTER TABLE `사용자 정보`
- ADD CONSTRAINT `사용자 정보_PK` PRIMARY KEY ( `아이디` );
-
-
-DROP TABLE `시설 사진`;
+DROP TABLE if exists`시설 사진`;
 
 CREATE TABLE `시설 사진`
 (
-    `시설사진_id`    INT NOT NULL,
-    `사진url`    VARCHAR(300),
-    `캡션`    VARCHAR(100),
-    `시설_id`    INT,
- PRIMARY KEY ( `시설사진_id` )
+    `photo_id`    INT NOT NULL,
+    `photo_url`    VARCHAR(300),
+    `photo_caption`    VARCHAR(100),
+    `facility_id`    INT
 );
 
 ALTER TABLE `시설 사진`
- ADD CONSTRAINT `시설 사진_PK` PRIMARY KEY ( `시설사진_id` );
+ ADD CONSTRAINT `시설 사진_PK` PRIMARY KEY ( `photo_id` );
 
 
-DROP TABLE `시설지도`;
+DROP TABLE if exists`시설지도`;
 
 CREATE TABLE `시설지도`
 (
-    `시설_id`    INT NOT NULL,
-    `시설이름`    VARCHAR(100),
-    `시설종류`    VARCHAR(100),
-    `주소`    VARCHAR(100),
-    `위도`    INT,
-    `경도`    INT,
-    `사용자 위치`    VARCHAR(100),
-    `아이디`    VARCHAR(30) NOT NULL,
-    `시설정보url`    VARCHAR(1000),
- PRIMARY KEY ( `시설_id` )
+    `facility_id`    INT NOT NULL,
+    `facility_name`    VARCHAR(100),
+    `facility_type`    VARCHAR(100),
+    `facility_add`    VARCHAR(100),
+    `facility_lat`    INT,
+    `facility_lng`    INT,
+    `facility_mine_loc`    VARCHAR(100),
+    `user_id`    VARCHAR(30) NOT NULL,
+    `facility_info_url`    VARCHAR(1000)
 );
 
 ALTER TABLE `시설지도`
- ADD CONSTRAINT `시설지도_PK` PRIMARY KEY ( `시설_id` );
+ ADD CONSTRAINT `시설지도_PK` PRIMARY KEY ( `facility_id` );
 
 
-DROP TABLE `알림`;
+DROP TABLE if exists`알림`;
 
 CREATE TABLE `알림`
 (
-    `알림_id`    INT NOT NULL,
-    `게시판_알림`    VARCHAR(100),
-    `일정_알림`    VARCHAR(100),
-    `아이디`    VARCHAR(30),
- PRIMARY KEY ( `알림_id` )
+    `alarm_id`    INT NOT NULL,
+    `alarm_board`    VARCHAR(100),
+    `alarm_schedule`    VARCHAR(100),
+    `user_id`    VARCHAR(30)
 );
 
-ALTER TABLE `알림`
- ADD CONSTRAINT `알림_PK` PRIMARY KEY ( `알림_id` );
 
-
-DROP TABLE `응답`;
+DROP TABLE if exists`응답`;
 
 CREATE TABLE `응답`
 (
-    `챗봇_id`    INT NOT NULL,
-    `응답_id`    INT NOT NULL,
-    `내용`    VARCHAR(1000),
-    `생성 시기`    TIMESTAMP,
- PRIMARY KEY ( `응답_id` )
+    `chatbot_id`    INT NOT NULL,
+    `response_id`    INT NOT NULL,
+    `response_content`    VARCHAR(1000),
+    `time`    TIMESTAMP default now()
 );
 
 ALTER TABLE `응답`
- ADD CONSTRAINT `응답_PK` PRIMARY KEY ( `응답_id` );
+ ADD CONSTRAINT `응답_PK` PRIMARY KEY ( `response_id` );
 
 
-DROP TABLE `인증`;
+DROP TABLE if exists `인증`;
 
 CREATE TABLE `인증`
 (
-    `인증_id`    INT NOT NULL,
-    `비밀번호_id`    INT,
-    `아이디_id`    INT,
-    `업데이트 시기`    TIMESTAMP,
-    `access_token`    VARCHAR(100),
-    `아이디`    VARCHAR(30) NOT NULL,
- PRIMARY KEY ( `인증_id` )
+    `log_certified_id`    INT DEFAULT 0 NOT NULL,
+    `log_pw_id`    INT DEFAULT null,
+    `log_id_id`    INT DEFAULT null,
+    `log_update`    TIMESTAMP,
+    `log_acess_token`    VARCHAR(100) DEFAULT null,
+    `user_id`    VARCHAR(30) NOT NULL
 );
 
 ALTER TABLE `인증`
- ADD CONSTRAINT `인증_PK` PRIMARY KEY ( `인증_id` );
+ ADD CONSTRAINT `인증_PK` PRIMARY KEY ( `log_certified_id` );
 
 
-DROP TABLE `일정`;
+DROP TABLE if exists `일정`;
 
 CREATE TABLE `일정`
 (
-    `일정_id`    INT NOT NULL,
-    `제목`    VARCHAR(100),
-    `내용`    VARCHAR(1000),
-    `생성시기`    TIMESTAMP,
-    `업데이트 시기`    TIMESTAMP,
-    `삭제 여부`    CHAR(1),
-    `반려동물정보_id`    INT,
-    `날짜`    DATE NOT NULL,
- PRIMARY KEY ( `일정_id` )
+    `schedule_id`    INT NOT NULL,
+    `schedule_title`    VARCHAR(100),
+    `schedule_content`    VARCHAR(1000),
+    `schedule_time1`    TIMESTAMP,
+    `schedule_update`    TIMESTAMP,
+    `schedule_delete`    CHAR(1),
+    `pet_id`    INT,
+    `schedule_time`    DATE NOT NULL
 );
 
 ALTER TABLE `일정`
- ADD CONSTRAINT `일정_PK` PRIMARY KEY ( `일정_id` );
+ ADD CONSTRAINT `일정_PK` PRIMARY KEY ( `schedule_id` );
 
 
-DROP TABLE `일지`;
+DROP TABLE if exists`일지`;
 
 CREATE TABLE `일지`
 (
-    `건강일지_id`    INT NOT NULL,
-    `제목`    VARCHAR(100),
-    `내용`    VARCHAR(1000),
-    `생성시기`    TIMESTAMP,
-    `업데이트 시기`    TIMESTAMP,
-    `삭제 여부`    CHAR(1),
-    `반려동물정보_id`    INT,
- PRIMARY KEY ( `건강일지_id` )
+    `diary_id`    INT NOT NULL,
+    `diary_title`    VARCHAR(100),
+    `diary_content`    VARCHAR(1000),
+    `diary_time`    TIMESTAMP,
+    `diary_update`    TIMESTAMP,
+    `diary_delete`    CHAR(1),
+    `pet_id`    INT
 );
 
 ALTER TABLE `일지`
- ADD CONSTRAINT `일지_PK` PRIMARY KEY ( `건강일지_id` );
+ ADD CONSTRAINT `일지_PK` PRIMARY KEY ( `diary_id` );
 
 
-DROP TABLE `챗봇문의`;
+DROP TABLE if exists `챗봇문의`;
 
 CREATE TABLE `챗봇문의`
 (
-    `챗봇_id`    INT NOT NULL,
-    `내용`    VARCHAR(1000),
-    `생성시기`    TIMESTAMP,
-    `아이디`    VARCHAR(30) NOT NULL,
- PRIMARY KEY ( `챗봇_id` )
+    `chatbot_id`    INT NOT NULL,
+    `chatbot_content`    VARCHAR(1000),
+    `chatbot_time`    TIMESTAMP default now(),
+    `user_id`    VARCHAR(30) NOT NULL
 );
 
 ALTER TABLE `챗봇문의`
- ADD CONSTRAINT `챗봇문의_PK` PRIMARY KEY ( `챗봇_id` );
+ ADD CONSTRAINT `챗봇문의_PK` PRIMARY KEY ( `chatbot_id` );
 
 
-DROP TABLE `탈퇴 이력`;
+DROP TABLE if exists`탈퇴 이력`;
 
 CREATE TABLE `탈퇴 이력`
 (
-    `탈퇴일자`    DATE NOT NULL,
-    `탈퇴사유`    VARCHAR(100),
-    `아이디`    VARCHAR(30) NOT NULL,
- PRIMARY KEY ( `아이디`,`탈퇴일자` )
+    `resign_date`    DATE NOT NULL,
+    `resign_reason`    VARCHAR(100),
+    `user_id`    VARCHAR(30) NOT NULL
 );
 
 ALTER TABLE `탈퇴 이력`
- ADD CONSTRAINT `탈퇴 이력_PK` PRIMARY KEY ( `아이디`,`탈퇴일자` );
+ ADD CONSTRAINT `탈퇴 이력_PK` PRIMARY KEY ( `user_id`,`resign_date` );
 
-
+select * from 챗봇문의;
+select * from 응답; 
