@@ -20,9 +20,6 @@ const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = async () => {
-    const username = "";
-    const password = "";
-
     try {
       const response = await fetch(
         "https://qwa4vzc7jgugwyornpacwyp7sm0ycgrn.lambda-url.ap-northeast-2.on.aws/",
