@@ -31,7 +31,6 @@ const Login = ({ navigation }) => {
           body: JSON.stringify({ username, password }),
         }
       );
-
       if (response.ok) {
         // 로그인 성공 시 처리
         Alert.alert("로그인 성공", "환영합니다!", [
@@ -210,8 +209,8 @@ const Login = ({ navigation }) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity
-            onPress={() => console.log("Pressed")}
+          <Pressable
+            onPress={() => navigation.navigate("Facebook")}
             style={{
               flex: 1,
               alignItems: "center",
@@ -235,10 +234,10 @@ const Login = ({ navigation }) => {
             />
 
             <Text>Facebook</Text>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity
-            onPress={() => console.log("Pressed")}
+          <Pressable
+            onPress={() => navigation.navigate("Google")}
             style={{
               flex: 1,
               alignItems: "center",
@@ -262,7 +261,7 @@ const Login = ({ navigation }) => {
             />
 
             <Text>Google</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
         <View

@@ -341,8 +341,8 @@ const Signup = ({ navigation }) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity
-            onPress={() => console.log("Pressed")}
+          <Pressable
+            onPress={() => navigation.navigate("Facebook")}
             style={{
               flex: 1,
               alignItems: "center",
@@ -366,10 +366,10 @@ const Signup = ({ navigation }) => {
             />
 
             <Text>Facebook</Text>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity
-            onPress={() => console.log("Pressed")}
+          <Pressable
+            onPress={() => navigation.navigate("Google")}
             style={{
               flex: 1,
               alignItems: "center",
@@ -393,7 +393,7 @@ const Signup = ({ navigation }) => {
             />
 
             <Text>Google</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
         <View
