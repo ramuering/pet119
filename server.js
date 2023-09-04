@@ -10,6 +10,10 @@ app.get("/", (req, res) => {
   res.send("Hello world!");
 });
 
+app.get("/idDoubleCheck", (req,res) => {
+  res.sendFile("./server_api/idDoubleCheck.js");
+})
+
 app.listen(port, () => console.log("Listening on", port));
 
 module.exports = app;
